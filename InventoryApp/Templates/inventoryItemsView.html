@@ -1,0 +1,173 @@
+﻿<div class="progress progress-striped active" data-ng-show="isBusy">
+    <div class="bar" style="width:100%;"></div>
+</div>
+<style>
+    td {
+        max-width: 100px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+</style>
+<div class="row">
+    <div class="form-group col-lg-12">
+        <div class="controls">
+            <div style="overflow-y: auto !important; max-height: 800px;">
+                <table class="table table-striped table-bordered bootstrap-datatable datatable dataTable">
+                    <thead>
+                        <tr role="row">
+                            <th>Details</th>
+                            <th>Name</th>
+                            <!--<th>User</th>-->
+                            <th>IT Asset</th>
+                            <th>Company Asset</th>
+                            <th>Serial 1</th>
+                            <!--<th>Serial 2</th>-->
+                            <th>Description</th>
+                            <!--<th>Added</th>
+                            <th>Modified</th>-->
+                            <!--<th>Quantity</th>-->
+                            <!--<th>Price</th>-->
+                            <!--<th>Location</th>-->
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr data-ng-repeat="i in data.inventoryItems">
+                            <td><a class="btn btn-info btn-xs" data-toggle="modal" data-target="#detailsDialog" data-ng-click="viewInventoryItem(i.id)"><i class="glyphicon glyphicon-eye-open"></i> Details</a></td>
+                            <td title="{{i.modifiedBy}}">{{i.modifiedBy}}</td>
+                            <!--<td>{{i.id}}</td>-->
+                            <td>{{i.itAssetNum}}</td>
+                            <td>{{i.compAssetNum}}</td>
+                            <td>{{i.serial1}}</td>
+                            <!--<td>{{i.serial2}}</td>-->
+                            <td>{{i.description}}</td>
+                            <!--<td>{{i.dateAdded | date:"MM/dd/yyyy"}}</td>
+                            <td>{{i.dateModified | date:"MM/dd/yyyy"}}</td>-->
+                            <!--<td>{{i.quantity}}</td>-->
+                            <!--<td>{{i.price | currency}}</td>-->
+                            <!--<td></td>-->
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="detailsDialog" style="" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form name="inventoryItemForm">
+                <fieldset>
+                    <div class="modal-header">
+                        <button type="button" class="close closeHelp" data-dismiss="modal" aria-hidden="true">×</button>
+                        <h2 class="modal-title">Item Details</h2>
+                    </div>
+
+                    <div class="modal-body">
+
+                        <div class="row">
+                            <div class="form-group col-lg-12">
+                                <label class="control-label" for="id">Item Id</label>
+                                <div class="controls">
+                                    <input data-ng-model="data.inventoryItem.id" class="form-control" name="id" readonly />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-lg-6">
+                                <label class="control-label" for="itAssetNum">IT Asset Number</label>
+                                <div class="controls">
+                                    <input data-ng-model="data.inventoryItem.itAssetNum" class="form-control" name="itAssetNum" />
+                                </div>
+                            </div>
+                            <div class="form-group col-lg-6">
+                                <label class="control-label" for="compAssetNum">Company Asset Number</label>
+                                <div class="controls">
+                                    <input data-ng-model="data.inventoryItem.compAssetNum" class="form-control" name="compAssetNum" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-lg-6">
+                                <label class="control-label" for="serial1">Serial 1</label>
+                                <div class="controls">
+                                    <input data-ng-model="data.inventoryItem.serial1" class="form-control" name="serial1" />
+                                </div>
+                            </div>
+                            <div class="form-group col-lg-6">
+                                <label class="control-label" for="serial2">Serial 2</label>
+                                <div class="controls">
+                                    <input data-ng-model="data.inventoryItem.serial2" class="form-control" name="serial2" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-lg-12">
+                                <label class="control-label" for="description">Description</label>
+                                <div class="controls">
+                                    <textarea data-ng-model="data.inventoryItem.description" class="form-control" name="description" rows="5"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-lg-6">
+                                <label class="control-label" for="dateAdded">Date Added</label>
+                                <div class="controls">
+                                    <input data-ng-model="data.inventoryItem.dateAdded" class="form-control" name="dateAdded" readonly />
+                                </div>
+                            </div>
+                            <div class="form-group col-lg-6">
+                                <label class="control-label" for="dateModified">Date Modified</label>
+                                <div class="controls">
+                                    <input data-ng-model="data.inventoryItem.dateModified" class="form-control" name="dateModified" readonly />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-lg-6">
+                                <label class="control-label" for="quantity">Quantity</label>
+                                <div class="controls">
+                                    <input data-ng-model="data.inventoryItem.quantity" class="form-control" name="quantity" />
+                                </div>
+                            </div>
+                            <div class="form-group col-lg-6">
+                                <label class="control-label" for="price">Price</label>
+                                <div class="controls">
+                                    <input data-ng-model="data.inventoryItem.price" class="form-control" name="price" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-lg-12">
+                                <label class="control-label" for="location">Location</label>
+                                <div class="controls">
+                                    <select class="form-control" ng-model="myColor" ng-options="location.name for location in data.locations" name="location"></select>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="clearfix"></div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <div class="row">
+                            <div class="form-group col-lg-12">
+                                <div class="buttons">
+                                    <p>
+                                        <button type="button" class="btn btn-success" data-dismiss="modal" data-ng-click="saveInventoryItem()">Save</button>
+                                        <button type="button" class="btn btn-warning" data-dismiss="modal">Cancel</button>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
