@@ -10,6 +10,12 @@
     }
 </style>
 <div class="row">
+    <div class="form-group col-lg-4">
+        <div class="input-group">
+            <span class="input-group-addon"><span class="glyphicon glyphicon-filter"></span></span>
+            <input ng-model="vm.search" type="text" class="form-control" placeholder="filter">
+        </div>
+    </div>
     <div class="form-group col-lg-12">
         <div class="controls">
             <div style="overflow-y: auto !important; max-height: 800px;">
@@ -18,34 +24,20 @@
                         <tr role="row">
                             <th>Details</th>
                             <th>Name</th>
-                            <!--<th>User</th>-->
                             <th>IT Asset</th>
                             <th>Company Asset</th>
                             <th>Serial 1</th>
-                            <!--<th>Serial 2</th>-->
                             <th>Description</th>
-                            <!--<th>Added</th>
-                            <th>Modified</th>-->
-                            <!--<th>Quantity</th>-->
-                            <!--<th>Price</th>-->
-                            <!--<th>Location</th>-->
                         </tr>
                     </thead>
                     <tbody>
-                        <tr data-ng-repeat="i in data.inventoryItems">
-                            <td><a class="btn btn-info btn-xs" data-toggle="modal" data-target="#detailsDialog" data-ng-click="viewInventoryItem(i.id)"><i class="glyphicon glyphicon-eye-open"></i> Details</a></td>
+                        <tr data-ng-repeat="i in vm.inventoryItems | filter:vm.search">
+                            <td><a class="btn btn-info btn-xs" data-toggle="modal" data-target="#detailsDialog" data-ng-click="vm.viewInventoryItem(i.id)"><i class="glyphicon glyphicon-eye-open"></i> Details</a></td>
                             <td title="{{i.modifiedBy}}">{{i.modifiedBy}}</td>
-                            <!--<td>{{i.id}}</td>-->
                             <td>{{i.itAssetNum}}</td>
                             <td>{{i.compAssetNum}}</td>
                             <td>{{i.serial1}}</td>
-                            <!--<td>{{i.serial2}}</td>-->
                             <td>{{i.description}}</td>
-                            <!--<td>{{i.dateAdded | date:"MM/dd/yyyy"}}</td>
-                            <td>{{i.dateModified | date:"MM/dd/yyyy"}}</td>-->
-                            <!--<td>{{i.quantity}}</td>-->
-                            <!--<td>{{i.price | currency}}</td>-->
-                            <!--<td></td>-->
                         </tr>
                     </tbody>
                 </table>
@@ -61,30 +53,21 @@
                 <fieldset>
                     <div class="modal-header">
                         <button type="button" class="close closeHelp" data-dismiss="modal" aria-hidden="true">×</button>
-                        <h2 class="modal-title">Item Details</h2>
+                        <h2 class="modal-title">Item Details - {{vm.inventoryItem.id}}</h2>
                     </div>
 
                     <div class="modal-body">
-
-                        <div class="row">
-                            <div class="form-group col-lg-12">
-                                <label class="control-label" for="id">Item Id</label>
-                                <div class="controls">
-                                    <input data-ng-model="data.inventoryItem.id" class="form-control" name="id" readonly />
-                                </div>
-                            </div>
-                        </div>
                         <div class="row">
                             <div class="form-group col-lg-6">
                                 <label class="control-label" for="itAssetNum">IT Asset Number</label>
                                 <div class="controls">
-                                    <input data-ng-model="data.inventoryItem.itAssetNum" class="form-control" name="itAssetNum" />
+                                    <input data-ng-model="vm.inventoryItem.itAssetNum" class="form-control" name="itAssetNum" />
                                 </div>
                             </div>
                             <div class="form-group col-lg-6">
                                 <label class="control-label" for="compAssetNum">Company Asset Number</label>
                                 <div class="controls">
-                                    <input data-ng-model="data.inventoryItem.compAssetNum" class="form-control" name="compAssetNum" />
+                                    <input data-ng-model="vm.inventoryItem.compAssetNum" class="form-control" name="compAssetNum" />
                                 </div>
                             </div>
                         </div>
@@ -92,13 +75,13 @@
                             <div class="form-group col-lg-6">
                                 <label class="control-label" for="serial1">Serial 1</label>
                                 <div class="controls">
-                                    <input data-ng-model="data.inventoryItem.serial1" class="form-control" name="serial1" />
+                                    <input data-ng-model="vm.inventoryItem.serial1" class="form-control" name="serial1" />
                                 </div>
                             </div>
                             <div class="form-group col-lg-6">
                                 <label class="control-label" for="serial2">Serial 2</label>
                                 <div class="controls">
-                                    <input data-ng-model="data.inventoryItem.serial2" class="form-control" name="serial2" />
+                                    <input data-ng-model="vm.inventoryItem.serial2" class="form-control" name="serial2" />
                                 </div>
                             </div>
                         </div>
@@ -106,7 +89,7 @@
                             <div class="form-group col-lg-12">
                                 <label class="control-label" for="description">Description</label>
                                 <div class="controls">
-                                    <textarea data-ng-model="data.inventoryItem.description" class="form-control" name="description" rows="5"></textarea>
+                                    <textarea data-ng-model="vm.inventoryItem.description" class="form-control" name="description" rows="5"></textarea>
                                 </div>
                             </div>
                         </div>
@@ -114,13 +97,13 @@
                             <div class="form-group col-lg-6">
                                 <label class="control-label" for="dateAdded">Date Added</label>
                                 <div class="controls">
-                                    <input data-ng-model="data.inventoryItem.dateAdded" class="form-control" name="dateAdded" readonly />
+                                    <input data-ng-model="vm.inventoryItem.dateAdded" class="form-control" name="dateAdded" readonly />
                                 </div>
                             </div>
                             <div class="form-group col-lg-6">
                                 <label class="control-label" for="dateModified">Date Modified</label>
                                 <div class="controls">
-                                    <input data-ng-model="data.inventoryItem.dateModified" class="form-control" name="dateModified" readonly />
+                                    <input data-ng-model="vm.inventoryItem.dateModified" class="form-control" name="dateModified" readonly />
                                 </div>
                             </div>
                         </div>
@@ -128,13 +111,13 @@
                             <div class="form-group col-lg-6">
                                 <label class="control-label" for="quantity">Quantity</label>
                                 <div class="controls">
-                                    <input data-ng-model="data.inventoryItem.quantity" class="form-control" name="quantity" />
+                                    <input data-ng-model="vm.inventoryItem.quantity" class="form-control" name="quantity" />
                                 </div>
                             </div>
                             <div class="form-group col-lg-6">
                                 <label class="control-label" for="price">Price</label>
                                 <div class="controls">
-                                    <input data-ng-model="data.inventoryItem.price" class="form-control" name="price" />
+                                    <input data-ng-model="vm.inventoryItem.price" class="form-control" name="price" />
                                 </div>
                             </div>
                         </div>
@@ -142,11 +125,51 @@
                             <div class="form-group col-lg-12">
                                 <label class="control-label" for="location">Location</label>
                                 <div class="controls">
-                                    <select class="form-control" ng-model="myColor" ng-options="location.name for location in data.locations" name="location"></select>
+                                    <select class="form-control" data-ng-model="vm.selectedLocation" data-ng-options="location.name for location in vm.locations" name="location" data-ng-change="vm.updateInventoryItem()"></select>
                                 </div>
                             </div>
                         </div>
-
+                        <div class="row">
+                            <div class="form-group col-lg-12">
+                                <label class="control-label" for="category">Category</label>
+                                <div class="controls">
+                                    <select class="form-control" data-ng-model="vm.selectedCategory" data-ng-options="category.name for category in vm.categories" name="category" data-ng-change="vm.updateItems()"></select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-lg-12">
+                                <label class="control-label" for="item">Item</label>
+                                <div class="controls">
+                                    <select class="form-control" data-ng-model="vm.selectedItem" data-ng-options="item.name for item in vm.items" name="itemId" data-ng-change="vm.updateInventoryItem()"></select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-lg-12">
+                                <!--<button type="button" class="btn btn-info" data-ng-click="vm.viewTracking()">tracking</button>-->
+                                <p ng-hide="vm.trackings.length > 0">No tracking info</p>
+                                <table class="table table-striped" ng-show="vm.trackings.length > 0">
+                                    <caption><h4>Tracking</h4></caption>
+                                    <thead>
+                                        <tr role="row">
+                                            <th>Id</th>
+                                            <th>User</th>
+                                            <th>Date</th>
+                                            <th>Quantity</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr data-ng-repeat="i in vm.trackings">
+                                            <td>{{i.id}}</td>
+                                            <td>{{i.user}}</td>
+                                            <td>{{i.date | date:'MM/dd/yyyy @ h:mma'}}</td>
+                                            <td>{{i.quantity}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
 
                         <div class="clearfix"></div>
                     </div>
@@ -156,7 +179,7 @@
                             <div class="form-group col-lg-12">
                                 <div class="buttons">
                                     <p>
-                                        <button type="button" class="btn btn-success" data-dismiss="modal" data-ng-click="saveInventoryItem()">Save</button>
+                                        <button type="button" class="btn btn-success" data-dismiss="modal" data-ng-click="vm.saveInventoryItem()">Save</button>
                                         <button type="button" class="btn btn-warning" data-dismiss="modal">Cancel</button>
                                     </p>
                                 </div>
@@ -165,6 +188,7 @@
                     </div>
                 </fieldset>
             </form>
+            
         </div>
     </div>
 </div>

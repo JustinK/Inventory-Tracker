@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Web;
@@ -31,7 +32,8 @@ namespace InventoryApp.Data
         }
         public InventoryItem GetInventoryItemById(int inventoryItemId)
         {
-            return _ctx.InventoryItems.Where(p => p.Id == inventoryItemId).SingleOrDefault();
+            return _ctx.InventoryItems.SingleOrDefault(d => d.Id == inventoryItemId);
+            
         }
 
         public IQueryable<Location> GetLocations()

@@ -1,6 +1,7 @@
 using System.Web.Http;
 using InventoryApp.Data;
 using InventoryApp.Infrastructure.DependencyResolvers;
+using InventoryApp.Models;
 using WebApiContrib.IoC.Ninject;
 
 [assembly: WebActivatorEx.PreApplicationStartMethod(typeof(InventoryApp.App_Start.NinjectWebCommon), "Start")]

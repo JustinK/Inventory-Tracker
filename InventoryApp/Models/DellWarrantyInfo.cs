@@ -12,18 +12,12 @@ namespace InventoryApp.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Tracking
+    public partial class DellWarrantyInfo
     {
-        public int Id { get; set; }
-        public string JobNumber { get; set; }
-        public string User { get; set; }
-        public int StatusId { get; set; }
-        public string AddedBy { get; set; }
-        public System.DateTime Date { get; set; }
-        public int Quantity { get; set; }
-        public int InventoryItemId { get; set; }
-    
-        public virtual InventoryItem InventoryItem { get; set; }
-        public virtual Status Status { get; set; }
+        public int ID { get; set; }
+        public string ServiceTag { get; set; }
+        public string WarrantyProvider { get; set; }
+        public string WarrantyType { get; set; }
+        public Nullable<System.DateTime> WarrantyEndDate { get; set; }
     }
 }

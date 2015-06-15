@@ -143,23 +143,56 @@
     <Compile Include="App_Start\NinjectWebCommon.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\CategoriesController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\InventoryItemsController.cs" />
+    <Compile Include="Controllers\ItemsController.cs" />
     <Compile Include="Controllers\LocationsController.cs" />
+    <Compile Include="Controllers\TrackingController.cs" />
     <Compile Include="Data\IInventoryRepository.cs" />
     <Compile Include="Data\InventoryRepository.cs" />
-    <Compile Include="Models\Category.cs" />
-    <Compile Include="Data\InventoryContext.cs" />
-    <Compile Include="Models\InventoryItem.cs" />
-    <Compile Include="Models\Item.cs" />
-    <Compile Include="Models\Location.cs" />
-    <Compile Include="Models\Status.cs" />
-    <Compile Include="Models\Tracking.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Infrastructure\DependencyResolvers\NinjectDependencyResolver.cs" />
+    <Compile Include="Models\Category.cs">
+      <DependentUpon>Inventory.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DellWarrantyInfo.cs">
+      <DependentUpon>Inventory.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Inventory.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Inventory.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Inventory.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Inventory.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Inventory.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Inventory.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Inventory.Views.cs" />
+    <Compile Include="Models\InventoryItem.cs">
+      <DependentUpon>Inventory.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Item.cs">
+      <DependentUpon>Inventory.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Location.cs">
+      <DependentUpon>Inventory.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Status.cs">
+      <DependentUpon>Inventory.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tracking.cs">
+      <DependentUpon>Inventory.tt</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -171,7 +204,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
-    <Content Include="js\app.js" />
+    <Content Include="Scripts\app\app.js" />
     <Content Include="Scripts\angular-animate.js" />
     <Content Include="Scripts\angular-animate.min.js" />
     <Content Include="Scripts\angular-cookies.js" />
@@ -200,6 +233,24 @@
     <Content Include="Scripts\angular-cookies.min.js.map" />
     <Content Include="Scripts\angular-animate.min.js.map" />
     <Content Include="Scripts\angular.min.js.map" />
+    <EntityDeploy Include="Models\Inventory.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>Inventory.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\Inventory.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Inventory.edmx</DependentUpon>
+      <LastGenOutput>Inventory.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\Inventory.edmx.diagram">
+      <DependentUpon>Inventory.edmx</DependentUpon>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Models\Inventory.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Inventory.edmx</DependentUpon>
+      <LastGenOutput>Inventory.cs</LastGenOutput>
+    </Content>
     <None Include="Scripts\jquery-2.1.1.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -939,8 +990,10 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\_references.js" />
-    <Content Include="Templates\inventoryItemsView.html" />
-    <Content Include="Web.config" />
+    <Content Include="Scripts\app\Templates\inventoryItemsView.html" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -961,6 +1014,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

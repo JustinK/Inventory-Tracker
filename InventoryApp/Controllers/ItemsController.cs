@@ -9,38 +9,37 @@ using InventoryApp.Models;
 
 namespace InventoryApp.Controllers
 {
-    public class LocationsController : ApiController
+    public class ItemsController : ApiController
     {
         private IInventoryRepository _repo;
 
-        public LocationsController(IInventoryRepository repo)
+        public ItemsController(IInventoryRepository repo)
         {
             _repo = repo;
         }
-        [Route("api/v1/locations")]
-        public IEnumerable<Location> Get()
+        [Route("api/v1/items")]
+        public IEnumerable<Item> Get()
         {
-            var locationList = _repo.GetLocations().ToList();
-            return locationList;
+            return _repo.GetItems();
         }
 
-        [Route("api/v1/locations/{id}")]
-        public string Get(int id)
+        [Route("api/v1/items/{id}")]
+        public Item Get(int id)
         {
-            return "value";
+            return _repo.GetItems().SingleOrDefault(p => p.Id == id);
         }
 
-        [Route("api/v1/locations")]
+        // POST api/<controller>
         public void Post([FromBody]string value)
         {
         }
 
-        [Route("api/v1/locations/{id}")]
+        // PUT api/<controller>/5
         public void Put(int id, [FromBody]string value)
         {
         }
 
-        [Route("api/v1/locations/{id}")]
+        // DELETE api/<controller>/5
         public void Delete(int id)
         {
         }

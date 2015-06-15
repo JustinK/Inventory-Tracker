@@ -19,11 +19,14 @@ namespace InventoryApp.Controllers
             _repo = repo;
         }
         // GET api/v1/inventoryitems
-        public IEnumerable<InventoryItem> Get()
+
+        [Route("api/v1/inventoryitems")]
+        public List<InventoryItem> Get()
         {
             try
             {
-                var items = _repo.GetInventoryItems().OrderByDescending(t => t.DateAdded).Take(50);
+                var items = _repo.GetInventoryItems().OrderByDescending(t => t.DateAdded).ToList();
+                Debug.WriteLine(items.First().LocationId);
                 return items;
             }
             catch (Exception ex)
@@ -35,13 +38,13 @@ namespace InventoryApp.Controllers
 
         }
 
-        // GET api/v1/inventoryitems/5
+        [Route("api/v1/inventoryitems/{id}")]
         public InventoryItem Get(int id)
         {
             return _repo.GetInventoryItemById(id);
         }
 
-        // POST api/<controller>
+        [Route("api/v1/inventoryitems")]
         public HttpResponseMessage Post([FromBody]InventoryItem inventoryItem)
         {
             if (_repo.AddInventoryItem(inventoryItem) && _repo.Save())
@@ -51,7 +54,7 @@ namespace InventoryApp.Controllers
             return Request.CreateResponse(HttpStatusCode.BadRequest);
         }
 
-        // PUT api/v1/inventoryitems/5
+        [Route("api/v1/inventoryitems/{id}")]
         public HttpResponseMessage Put(int id, [FromBody]InventoryItem inventoryItem)
         {
             inventoryItem.DateModified = DateTime.Now;
@@ -62,7 +65,8 @@ namespace InventoryApp.Controllers
             return Request.CreateResponse(HttpStatusCode.BadRequest);
         }
 
-        // DELETE api/v1/inventoryitems/5
+        [Route("api/v1/inventoryitems/{id}")]
+        [HttpDelete]
         public HttpResponseMessage Delete(int id)
         {
             return Request.CreateResponse(HttpStatusCode.BadRequest);

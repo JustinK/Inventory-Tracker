@@ -1,0 +1,495 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="InventoryContext.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Categories">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Type" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'IT_INVENTORY.dbo.DellWarrantyInfo' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="DellWarrantyInfo">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="ServiceTag" Type="varchar" MaxLength="8" />
+          <Property Name="WarrantyProvider" Type="varchar" MaxLength="75" />
+          <Property Name="WarrantyType" Type="varchar" MaxLength="75" />
+          <Property Name="WarrantyEndDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="InventoryItems">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Quantity" Type="int" Nullable="false" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+          <Property Name="Price" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="ItAssetNum" Type="nvarchar" MaxLength="30" />
+          <Property Name="CompAssetNum" Type="nvarchar" MaxLength="30" />
+          <Property Name="Serial1" Type="nvarchar" MaxLength="50" />
+          <Property Name="Serial2" Type="nvarchar" MaxLength="50" />
+          <Property Name="Description" Type="nvarchar" MaxLength="200" />
+          <Property Name="DateAdded" Type="datetime" />
+          <Property Name="DateModified" Type="datetime" />
+          <Property Name="ItemId" Type="int" Nullable="false" />
+          <Property Name="LocationId" Type="int" Nullable="false" />
+          <Property Name="ModifiedBy" Type="nvarchar" MaxLength="25" />
+        </EntityType>
+        <EntityType Name="Items">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="60" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="150" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+          <Property Name="DateAdded" Type="datetime" />
+          <Property Name="DateModified" Type="datetime" />
+          <Property Name="CategoryId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Locations">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Status">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6013: The table/view 'IT_INVENTORY.dbo.tempItems' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="tempItems">
+          <Property Name="Timestamp" Type="datetime" />
+          <Property Name="ItemName" Type="varchar" MaxLength="100" />
+          <Property Name="Type" Type="varchar" MaxLength="50" />
+          <Property Name="Category" Type="varchar" MaxLength="100" />
+        </EntityType>-->
+        <EntityType Name="Trackings">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="JobNumber" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="User" Type="nvarchar" MaxLength="25" Nullable="false" />
+          <Property Name="StatusId" Type="int" Nullable="false" />
+          <Property Name="AddedBy" Type="nvarchar" MaxLength="25" Nullable="false" />
+          <Property Name="Date" Type="datetime" Nullable="false" />
+          <Property Name="Quantity" Type="int" Nullable="false" />
+          <Property Name="InventoryItemId" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_CategoryItem">
+          <End Role="Categories" Type="Self.Categories" Multiplicity="1" />
+          <End Role="Items" Type="Self.Items" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Categories">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Items">
+              <PropertyRef Name="CategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_InventoryItemTracking">
+          <End Role="InventoryItems" Type="Self.InventoryItems" Multiplicity="1" />
+          <End Role="Trackings" Type="Self.Trackings" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="InventoryItems">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Trackings">
+              <PropertyRef Name="InventoryItemId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ItemInventoryItem">
+          <End Role="Items" Type="Self.Items" Multiplicity="1" />
+          <End Role="InventoryItems" Type="Self.InventoryItems" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Items">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="InventoryItems">
+              <PropertyRef Name="ItemId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LocationInventoryItem">
+          <End Role="Locations" Type="Self.Locations" Multiplicity="1" />
+          <End Role="InventoryItems" Type="Self.InventoryItems" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Locations">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="InventoryItems">
+              <PropertyRef Name="LocationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StatusTracking">
+          <End Role="Status" Type="Self.Status" Multiplicity="1" />
+          <End Role="Trackings" Type="Self.Trackings" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Status">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Trackings">
+              <PropertyRef Name="StatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="InventoryContextStoreContainer">
+          <EntitySet Name="Categories" EntityType="Self.Categories" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="InventoryItems" EntityType="Self.InventoryItems" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Items" EntityType="Self.Items" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Locations" EntityType="Self.Locations" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Status" EntityType="Self.Status" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Trackings" EntityType="Self.Trackings" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DellWarrantyInfo" EntityType="Self.DellWarrantyInfo" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [DellWarrantyInfo].[ID] AS [ID], 
+    [DellWarrantyInfo].[ServiceTag] AS [ServiceTag], 
+    [DellWarrantyInfo].[WarrantyProvider] AS [WarrantyProvider], 
+    [DellWarrantyInfo].[WarrantyType] AS [WarrantyType], 
+    [DellWarrantyInfo].[WarrantyEndDate] AS [WarrantyEndDate]
+    FROM [dbo].[DellWarrantyInfo] AS [DellWarrantyInfo]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK_CategoryItem" Association="Self.FK_CategoryItem">
+            <End Role="Categories" EntitySet="Categories" />
+            <End Role="Items" EntitySet="Items" />
+          </AssociationSet>
+          <AssociationSet Name="FK_InventoryItemTracking" Association="Self.FK_InventoryItemTracking">
+            <End Role="InventoryItems" EntitySet="InventoryItems" />
+            <End Role="Trackings" EntitySet="Trackings" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ItemInventoryItem" Association="Self.FK_ItemInventoryItem">
+            <End Role="Items" EntitySet="Items" />
+            <End Role="InventoryItems" EntitySet="InventoryItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LocationInventoryItem" Association="Self.FK_LocationInventoryItem">
+            <End Role="Locations" EntitySet="Locations" />
+            <End Role="InventoryItems" EntitySet="InventoryItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StatusTracking" Association="Self.FK_StatusTracking">
+            <End Role="Status" EntitySet="Status" />
+            <End Role="Trackings" EntitySet="Trackings" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Inventory" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Category">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Type" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Items" Relationship="Self.FK_CategoryItem" FromRole="Categories" ToRole="Items" />
+        </EntityType>
+        <EntityType Name="InventoryItem">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Quantity" Type="Int32" Nullable="false" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="Price" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="ItAssetNum" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="CompAssetNum" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="Serial1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Serial2" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="DateAdded" Type="DateTime" Precision="3" />
+          <Property Name="DateModified" Type="DateTime" Precision="3" />
+          <Property Name="ItemId" Type="Int32" Nullable="false" />
+          <Property Name="LocationId" Type="Int32" Nullable="false" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Trackings" Relationship="Self.FK_InventoryItemTracking" FromRole="InventoryItems" ToRole="Trackings" />
+          <NavigationProperty Name="Item" Relationship="Self.FK_ItemInventoryItem" FromRole="InventoryItems" ToRole="Items" />
+          <NavigationProperty Name="Location" Relationship="Self.FK_LocationInventoryItem" FromRole="InventoryItems" ToRole="Locations" />
+        </EntityType>
+        <EntityType Name="Item">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="60" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="DateAdded" Type="DateTime" Precision="3" />
+          <Property Name="DateModified" Type="DateTime" Precision="3" />
+          <Property Name="CategoryId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Category" Relationship="Self.FK_CategoryItem" FromRole="Items" ToRole="Categories" />
+          <NavigationProperty Name="InventoryItems" Relationship="Self.FK_ItemInventoryItem" FromRole="Items" ToRole="InventoryItems" />
+        </EntityType>
+        <EntityType Name="Location">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="InventoryItems" Relationship="Self.FK_LocationInventoryItem" FromRole="Locations" ToRole="InventoryItems" />
+        </EntityType>
+        <EntityType Name="Status">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Trackings" Relationship="Self.FK_StatusTracking" FromRole="Status" ToRole="Trackings" />
+        </EntityType>
+        <EntityType Name="Tracking">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="JobNumber" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="User" Type="String" MaxLength="25" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="StatusId" Type="Int32" Nullable="false" />
+          <Property Name="AddedBy" Type="String" MaxLength="25" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Quantity" Type="Int32" Nullable="false" />
+          <Property Name="InventoryItemId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="InventoryItem" Relationship="Self.FK_InventoryItemTracking" FromRole="Trackings" ToRole="InventoryItems" />
+          <NavigationProperty Name="Status" Relationship="Self.FK_StatusTracking" FromRole="Trackings" ToRole="Status" />
+        </EntityType>
+        <EntityType Name="DellWarrantyInfo">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="ServiceTag" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="WarrantyProvider" Type="String" MaxLength="75" FixedLength="false" Unicode="false" />
+          <Property Name="WarrantyType" Type="String" MaxLength="75" FixedLength="false" Unicode="false" />
+          <Property Name="WarrantyEndDate" Type="DateTime" Precision="3" />
+        </EntityType>
+        <Association Name="FK_CategoryItem">
+          <End Role="Categories" Type="Self.Category" Multiplicity="1" />
+          <End Role="Items" Type="Self.Item" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Categories">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Items">
+              <PropertyRef Name="CategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_InventoryItemTracking">
+          <End Role="InventoryItems" Type="Self.InventoryItem" Multiplicity="1" />
+          <End Role="Trackings" Type="Self.Tracking" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="InventoryItems">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Trackings">
+              <PropertyRef Name="InventoryItemId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ItemInventoryItem">
+          <End Role="Items" Type="Self.Item" Multiplicity="1" />
+          <End Role="InventoryItems" Type="Self.InventoryItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Items">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="InventoryItems">
+              <PropertyRef Name="ItemId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LocationInventoryItem">
+          <End Role="Locations" Type="Self.Location" Multiplicity="1" />
+          <End Role="InventoryItems" Type="Self.InventoryItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Locations">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="InventoryItems">
+              <PropertyRef Name="LocationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StatusTracking">
+          <End Role="Status" Type="Self.Status" Multiplicity="1" />
+          <End Role="Trackings" Type="Self.Tracking" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Status">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Trackings">
+              <PropertyRef Name="StatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="InventoryContext" annotation:LazyLoadingEnabled="false">
+          <EntitySet Name="Categories" EntityType="Self.Category" />
+          <EntitySet Name="InventoryItems" EntityType="Self.InventoryItem" />
+          <EntitySet Name="Items" EntityType="Self.Item" />
+          <EntitySet Name="Locations" EntityType="Self.Location" />
+          <EntitySet Name="Status" EntityType="Self.Status" />
+          <EntitySet Name="Trackings" EntityType="Self.Tracking" />
+          <EntitySet Name="DellWarrantyInfoes" EntityType="Self.DellWarrantyInfo" />
+          <AssociationSet Name="FK_CategoryItem" Association="Self.FK_CategoryItem">
+            <End Role="Categories" EntitySet="Categories" />
+            <End Role="Items" EntitySet="Items" />
+          </AssociationSet>
+          <AssociationSet Name="FK_InventoryItemTracking" Association="Self.FK_InventoryItemTracking">
+            <End Role="InventoryItems" EntitySet="InventoryItems" />
+            <End Role="Trackings" EntitySet="Trackings" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ItemInventoryItem" Association="Self.FK_ItemInventoryItem">
+            <End Role="Items" EntitySet="Items" />
+            <End Role="InventoryItems" EntitySet="InventoryItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LocationInventoryItem" Association="Self.FK_LocationInventoryItem">
+            <End Role="Locations" EntitySet="Locations" />
+            <End Role="InventoryItems" EntitySet="InventoryItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StatusTracking" Association="Self.FK_StatusTracking">
+            <End Role="Status" EntitySet="Status" />
+            <End Role="Trackings" EntitySet="Trackings" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="InventoryContextStoreContainer" CdmEntityContainer="InventoryContext">
+          <EntitySetMapping Name="Categories">
+            <EntityTypeMapping TypeName="Inventory.Category">
+              <MappingFragment StoreEntitySet="Categories">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="InventoryItems">
+            <EntityTypeMapping TypeName="Inventory.InventoryItem">
+              <MappingFragment StoreEntitySet="InventoryItems">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="ItAssetNum" ColumnName="ItAssetNum" />
+                <ScalarProperty Name="CompAssetNum" ColumnName="CompAssetNum" />
+                <ScalarProperty Name="Serial1" ColumnName="Serial1" />
+                <ScalarProperty Name="Serial2" ColumnName="Serial2" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="DateAdded" ColumnName="DateAdded" />
+                <ScalarProperty Name="DateModified" ColumnName="DateModified" />
+                <ScalarProperty Name="ItemId" ColumnName="ItemId" />
+                <ScalarProperty Name="LocationId" ColumnName="LocationId" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Items">
+            <EntityTypeMapping TypeName="Inventory.Item">
+              <MappingFragment StoreEntitySet="Items">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="DateAdded" ColumnName="DateAdded" />
+                <ScalarProperty Name="DateModified" ColumnName="DateModified" />
+                <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Locations">
+            <EntityTypeMapping TypeName="Inventory.Location">
+              <MappingFragment StoreEntitySet="Locations">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Status">
+            <EntityTypeMapping TypeName="Inventory.Status">
+              <MappingFragment StoreEntitySet="Status">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Trackings">
+            <EntityTypeMapping TypeName="Inventory.Tracking">
+              <MappingFragment StoreEntitySet="Trackings">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="JobNumber" ColumnName="JobNumber" />
+                <ScalarProperty Name="User" ColumnName="User" />
+                <ScalarProperty Name="StatusId" ColumnName="StatusId" />
+                <ScalarProperty Name="AddedBy" ColumnName="AddedBy" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="InventoryItemId" ColumnName="InventoryItemId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DellWarrantyInfoes">
+            <EntityTypeMapping TypeName="Inventory.DellWarrantyInfo">
+              <MappingFragment StoreEntitySet="DellWarrantyInfo">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="ServiceTag" ColumnName="ServiceTag" />
+                <ScalarProperty Name="WarrantyProvider" ColumnName="WarrantyProvider" />
+                <ScalarProperty Name="WarrantyType" ColumnName="WarrantyType" />
+                <ScalarProperty Name="WarrantyEndDate" ColumnName="WarrantyEndDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

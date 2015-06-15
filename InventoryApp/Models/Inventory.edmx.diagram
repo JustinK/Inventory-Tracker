@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="ca09fc182a2042e297f55846415d439e" Name="Diagram1">
+        <EntityTypeShape EntityType="Inventory.Category" Width="1.5" PointX="0.75" PointY="2.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="Inventory.InventoryItem" Width="1.5" PointX="5.25" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="Inventory.Item" Width="1.5" PointX="3" PointY="1.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="Inventory.Location" Width="1.5" PointX="3" PointY="7.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="Inventory.Status" Width="1.5" PointX="5.25" PointY="7.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="Inventory.Tracking" Width="1.5" PointX="7.5" PointY="1.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Inventory.DellWarrantyInfo" Width="1.5" PointX="7.75" PointY="5.75" IsExpanded="true" />
+        <AssociationConnector Association="Inventory.FK_CategoryItem" ManuallyRouted="false" />
+        <AssociationConnector Association="Inventory.FK_InventoryItemTracking" ManuallyRouted="false" />
+        <AssociationConnector Association="Inventory.FK_ItemInventoryItem" ManuallyRouted="false" />
+        <AssociationConnector Association="Inventory.FK_LocationInventoryItem" ManuallyRouted="false" />
+        <AssociationConnector Association="Inventory.FK_StatusTracking" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
